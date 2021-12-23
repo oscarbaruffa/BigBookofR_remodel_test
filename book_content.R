@@ -63,5 +63,8 @@ markdown_content <-  ""
    
  }
 
-write.table(markdown_content)
 
+
+
+render("test.rmd",
+       output_format = md_document())

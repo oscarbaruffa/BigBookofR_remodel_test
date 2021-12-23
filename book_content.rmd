@@ -1,0 +1,108 @@
+---
+title: "test"
+output: md_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r load packages, include=FALSE}
+# Load packages -----------------------------------------------------------
+
+library(dplyr)
+library(googlesheets4)
+library(glue)
+library(rmarkdown)
+
+
+```
+
+
+
+
+```{r load data, include=FALSE}
+# Load data ---------------------------------------------------------------
+
+
+#This is a publicly accessible sheet, therefore no need to googlesheets4 authorisation
+
+gs4_deauth()
+
+books_source <- read_sheet("https://docs.google.com/spreadsheets/d/1vufdtrIzF5wbkWZUG_HGIBAXpT1C4joPx2qTh5aYzDg")
+
+```
+
+
+
+
+```{r include=FALSE}
+# Create book content -----------------------------------------------------
+
+
+chapters <- books_source %>% 
+  select(chapters) %>% 
+  distinct(chapters) %>% 
+  pull() 
+
+```
+
+
+
+
+```{r content_loop, echo=FALSE, , results='asis'}
+
+
+for (chapter in chapters) {
+  cat('\n\n#', chapter, '\n\n')
+ 
+chapter_content <- books_source %>% 
+     filter(chapters == chapter)
+
+  for (entry in row.names(chapter_content)) {
+    # print(as.character(chapter_content[entry, 'title']))
+    cat('\n\n## ', as.character(chapter_content[entry, 'title']), '\n\n', sep="")
+    
+    
+    if (!is.na(chapter_content[entry, 'author1'])) {
+      
+      if (!is.na(chapter_content[entry, 'bio1'])) {
+        cat('[', as.character(chapter_content[entry, 'author1']),']', sep="")
+      } else {
+      cat(as.character(chapter_content[entry, 'author1']), sep="")
+      }
+    }
+    
+      
+     if (!is.na(chapter_content[entry, 'bio1'])) {
+      cat('(', as.character(chapter_content[entry, 'bio1']),')', sep="")
+    }
+    
+    
+    if (!is.na(chapter_content[entry, 'author2'])) {
+      cat(', [', as.character(chapter_content[entry, 'author2']),']', sep="")
+    }
+    
+      
+     if (!is.na(chapter_content[entry, 'bio2'])) {
+      cat('(', as.character(chapter_content[entry, 'bio2']),')', sep="")
+    }
+    
+    
+    
+  }
+
+}
+```
+
+
+
+
+
+
+```{r}
+ # render("book_content.rmd",
+ #        output_format = md_document())
+
+```
+
