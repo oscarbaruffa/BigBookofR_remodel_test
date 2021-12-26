@@ -70,9 +70,9 @@ chapter_content <- books_source %>%
     if (!is.na(chapter_content[entry, 'author1'])) {
       
       if (!is.na(chapter_content[entry, 'bio1'])) {
-        cat('[', as.character(chapter_content[entry, 'author1']),']', sep="")
+        cat('by [', as.character(chapter_content[entry, 'author1']),']', sep="")
       } else {
-      cat(as.character(chapter_content[entry, 'author1']), sep="")
+      cat('by ', as.character(chapter_content[entry, 'author1']), sep="")
       }
     }
     
@@ -126,16 +126,16 @@ chapter_content <- books_source %>%
   }
   
   if (!is.na(chapter_content[entry, 'paid'])) {
-    cat('\n\n', as.character(chapter_content[entry, 'paid']), sep="") 
+    cat('\n\nPaid: ', as.character(chapter_content[entry, 'paid']), sep="") 
     
     if (!is.na(chapter_content[entry, 'amount_usd'])) {
       cat(' $', as.character(chapter_content[entry, 'amount_usd']),'\n\n', sep="")   
     } 
-  }
+  } # end paid info
     
     
   if (!is.na(chapter_content[entry, 'link'])) {
-    cat('\n\n', as.character(chapter_content[entry, 'link']),'\n\n', sep="")   
+    cat('\n\nLink: ', as.character(chapter_content[entry, 'link']),'\n\n', sep="")   
   }
     
     
